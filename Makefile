@@ -1,22 +1,21 @@
-CC=gcc
-LDFLAGS=
-CFLAGS=-Wall `pkg-config --cflags json-glib-1.0 glib-2.0 purple`
+CC = gcc
+CFLAGS = -g -O2 `pkg-config --cflags json-glib-1.0 purple`
+LDFLAGS = `pkg-config --libs json-glib-1.0`
 
-NAME=libmightytext
-SRC=$(NAME).c
-OBJ=$(NAME).o
-SONAME=$(NAME).so.1
-LIB=$(SONAME).0.1
+NAME = libmightytext
+SRC = $(NAME).c
+OBJ = $(NAME).o
+LIB = $(NAME).so
 
 default: lib
 
 lib: $(LIB)
 
-$(OBJ): $(SRC) 
+$(OBJ): $(SRC)
 	$(CC) -c -fPIC $(CFLAGS) -o $@ $^
 
 $(LIB): $(OBJ)
-	$(CC) -shared -Wl,-soname,$(SONAME) $(LDFLAGS) -o $@ $^
+	$(CC) -shared $(LDFLAGS) -o $@ $^
 
 .PHONY: clean
 clean:
